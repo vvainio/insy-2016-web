@@ -1,5 +1,12 @@
 <ion-view title="Identification">
   <ion-content padding="true">
-    <p>Identify yourself!</p>
+    <form name="authForm" ng-controller="AuthCtrl" novalidate>
+      <label class="item item-input">
+        <input type="number"
+               ng-model="authForm.pin"
+               ng-pattern="regex"
+               ng-change="didInputPin()">
+      </label>
+    </form>
   </ion-content>
 </ion-view>
