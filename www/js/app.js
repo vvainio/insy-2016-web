@@ -22,6 +22,11 @@
         url: '/',
         templateUrl: 'views/home.html',
         controller: 'HomeCtrl'
+      })
+      .state('auth', {
+        url: '/auth',
+        templateUrl: 'views/auth.html',
+        controller: 'AuthCtrl'
       });
 
     $urlRouterProvider.otherwise('/');
