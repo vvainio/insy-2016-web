@@ -27,6 +27,11 @@
         url: '/auth',
         templateUrl: 'views/auth.html',
         controller: 'AuthCtrl'
+      })
+      .state('send', {
+        url: '/recipients',
+        templateUrl: 'views/send.recipients.html',
+        controller: 'SendCtrl'
       });
 
     $urlRouterProvider.otherwise('/');

@@ -9,5 +9,7 @@
 
   .controller('AuthCtrl', function ($scope) {
     $scope.foo = 'bar';
-  });
+  })
+
+  .controller('SendCtrl', function () {});
 })();
