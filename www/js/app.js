@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('app', ['ionic'])
+  angular.module('app', ['ionic', 'app.controllers'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -14,5 +14,16 @@
         StatusBar.styleDefault();
       }
     });
+  })
+
+  .config(function ($stateProvider, $urlRouterProvider) {
+    $stateProvider
+      .state('/', {
+        url: '/',
+        templateUrl: 'views/home.html',
+        controller: 'HomeCtrl'
+      });
+
+    $urlRouterProvider.otherwise('/');
   });
 })();
