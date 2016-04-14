@@ -39,10 +39,28 @@
         templateUrl: 'views/auth.html',
         controller: 'AuthCtrl'
       })
+      .state('dashboard', {
+        url: '/dashboard',
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardCtrl',
+        resolve: resolveCurrentAccount
+      })
       .state('send', {
-        url: '/recipients',
+        url: '/recipient',
         templateUrl: 'views/send.recipients.html',
-        controller: 'SendCtrl'
+        controller: 'SendRecipientCtrl',
+        resolve: resolveCurrentAccount
+      })
+      .state('verify', {
+        url: '/verify',
+        templateUrl: 'views/send.verify.html',
+        controller: 'SendVerifyCtrl',
+        resolve: resolveCurrentAccount
+      })
+      .state('confirmation', {
+        url: '/confirmation',
+        templateUrl: 'views/send.confirmation.html',
+        resolve: resolveCurrentAccount
       });
 
     $urlRouterProvider.otherwise('/auth');

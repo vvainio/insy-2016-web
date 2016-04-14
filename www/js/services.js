@@ -24,5 +24,27 @@
     this.logout = function () {
       firebaseAuth.$unauth();
     };
+
+    // accounts endpoint
+    this.getAccounts = function () {
+      return $firebaseArray(rootRef.child('accounts'));
+    };
+
+    // packages endpoint
+    this.createPackage = function (recipient) {
+      return rootRef.child('packages').push({
+        'is_delivered': false,
+        'sender': $rootScope.currentAccount.uid,
+        'recipient': recipient.$id
+      });
+    };
+
+    this.getPackages = function () {
+      return $firebaseArray(rootRef.child('packages'));
+    };
+
+    this.deletePackage = function (id) {
+      return rootRef.child('packages').child(id).remove();
+    };
   });
 })();

@@ -1,15 +1,16 @@
 <ion-view title="Select recipient">
   <ion-content padding="true">
     <ion-list>
-      <ion-radio ng-model="choice" ng-value="'A'">#1 - Jane Doe</ion-radio>
-      <ion-radio ng-model="choice" ng-value="'B'">#2 - John Doe</ion-radio>
+      <ion-radio ng-repeat="(key, account) in accounts" ng-click="setRecipient(key, account)">
+        #{{account.apartment}} - {{account.name}}
+      </ion-radio>
     </ion-list>
 
-    <a ui-sref="/" class="button button-block button-large button-positive">
+    <a ui-sref="verify" ng-disabled="!recipient" class="button button-block button-large button-positive">
       Confirm
     </a>
 
-    <a ui-sref="/" class="button button-assertive">
+    <a ui-sref="dashboard" class="button button-assertive">
       Cancel
     </a>
   </ion-content>

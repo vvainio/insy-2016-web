@@ -1,0 +1,45 @@
+<ion-view title="Dashboard" class="dashboard">
+  <ion-content padding="true">
+    <h3 ng-if="account.name">Welcome, {{account.name}}!</h3>
+
+    <a ui-sref="send" class="button button-block button-large button-positive">
+      Send a package
+    </a>
+
+    <a ui-sref="auth" class="button button-block button-large button-positive">
+      Receive a package
+    </a>
+
+    <h4>Sent packages</h4>
+    <ul ng-if="keys(sentPackages).length !== 0">
+      <li ng-repeat="(key, package) in sentPackages">
+        <dl>
+          <dt>Recipient</dt>
+          <dd>{{accounts[package.recipient].name}}</dd>
+          <dt>Is delivered?</dt>
+          <dd>{{package.is_delivered}}</dd>
+          <button href="#" ng-click="deletePackage(key)" class="button button-small button-assertive">Remove</button>
+        </dl>
+      </li>
+    </ul>
+    <p ng-if="keys(sentPackages).length == 0">
+      You haven't sent any packages yet.
+    </p>
+
+    <h4>Received packages</h4>
+    <ul ng-if="keys(receivedPackages).length !== 0">
+      <li ng-repeat="(key, package) in receivedPackages">
+        <dl>
+          <dt>From</dt>
+          <dd>{{accounts[package.sender].name}}</dd>
+          <dt>Is delivered?</dt>
+          <dd>{{package.is_delivered}}</dd>
+        </dl>
+        <button href="#" ng-click="deletePackage(key)" class="button button-small button-assertive">Remove</button>
+      </li>
+    </ul>
+    <p ng-if="keys(sentPackages).length == 0">
+      You haven't received any packages yet.
+    </p>
+  </ion-content>
+</ion-view>

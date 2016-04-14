@@ -8,7 +8,6 @@
       $state.transitionTo('dashboard');
     }
 
-  .controller('AuthCtrl', function ($scope, $state) {
     $scope.authForm = {};
     $scope.isAuthenticating = false;
     $scope.regex = /^[0-9]{5}$/;
@@ -27,5 +26,73 @@
     };
   })
 
-  .controller('SendCtrl', function () {});
+  .controller('DashboardCtrl', function ($rootScope, $scope, $state, FirebaseService) {
+    if (!$rootScope.currentAccount) {
+      $state.transitionTo('auth');
+    }
+
+    $scope.account = {};
+    $scope.accounts = {};
+    $scope.sentPackages = {};
+    $scope.receivedPackages = {};
+
+    FirebaseService.getAccounts().$loaded(function (accounts) {
+      accounts.forEach(function (account) {
+        var accountId = account.$id;
+
+        if (accountId === $rootScope.currentAccount.uid) {
+          $scope.account = account;
+        } else {
+          $scope.accounts[accountId] = account;
+        }
+      });
+
+      FirebaseService.getPackages().$loaded(function (pckgs) {
+        var accountId = $rootScope.currentAccount.uid;
+
+        pckgs.forEach(function (pckg) {
+          if (pckg.sender === accountId) {
+            $scope.sentPackages[pckg.$id] = pckg;
+          }
+
+          if (pckg.recipient === accountId) {
+            $scope.receivedPackages[pckg.$id] = pckg;
+          }
+        });
+      });
+    });
+
+    $scope.deletePackage = function (key) {
+      FirebaseService.deletePackage(key);
+    };
+  })
+
+  .controller('SendRecipientCtrl', function ($scope, $rootScope, $state, FirebaseService) {
+    if (!$rootScope.currentAccount) {
+      $state.transitionTo('auth');
+    }
+
+    $scope.accounts = FirebaseService.getAccounts();
+
+    $scope.setRecipient = function (key, account) {
+      $rootScope.recipient = account;
+      $rootScope.recipient.id = key;
+    };
+  })
+
+  .controller('SendVerifyCtrl', function ($scope, $rootScope, $state, FirebaseService) {
+    if (!$rootScope.currentAccount) {
+      $state.transitionTo('auth');
+    }
+
+    if (!$rootScope.recipient) {
+      $state.transitionTo('dashboard');
+    }
+
+    $scope.createPackage = function () {
+      FirebaseService.createPackage($rootScope.recipient).then(function () {
+        $state.transitionTo('confirmation');
+      });
+    };
+  });
 })();

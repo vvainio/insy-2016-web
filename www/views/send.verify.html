@@ -1,0 +1,14 @@
+<ion-view title="Verify details">
+  <ion-content padding="true">
+    <h3>Recipient: Apartment {{recipient.apartment}} - {{recipient.name}}</h3>
+    <p>Please confirm that the recipient is correct.</p>
+
+    <button ng-click="createPackage()" class="button button-block button-large button-positive">
+      Confirm and send
+    </button>
+
+    <a ui-sref="send" class="button button-assertive">
+      Change recipient
+    </a>
+  </ion-content>
+</ion-view>
