@@ -1,0 +1,26 @@
+{
+  "accounts" : {
+    "4b3dbff7-b386-4f15-be11-538f2a8d7a59" : {
+      "apartment" : "2",
+      "name" : "Jane Doe",
+      "type" : "resident"
+    },
+    "bbf30a0f-9a40-43a3-a7a8-549df0404716" : {
+      "apartment" : "1",
+      "name" : "John Doe",
+      "type" : "resident"
+    }
+  },
+  "packages" : {
+    "-KFJWKIERjrOdgm6EsQr" : {
+      "is_delivered" : false,
+      "recipient" : "4b3dbff7-b386-4f15-be11-538f2a8d7a59",
+      "sender" : "bbf30a0f-9a40-43a3-a7a8-549df0404716"
+    },
+    "-KFJWOX1Ep5TsT6BWsEh" : {
+      "is_delivered" : false,
+      "recipient" : "bbf30a0f-9a40-43a3-a7a8-549df0404716",
+      "sender" : "4b3dbff7-b386-4f15-be11-538f2a8d7a59"
+    }
+  }
+}
