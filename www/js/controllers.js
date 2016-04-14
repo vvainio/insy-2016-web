@@ -3,20 +3,27 @@
 
   angular.module('app.controllers', [])
 
-  .controller('HomeCtrl', function ($scope) {
-    $scope.foo = 'bar';
-  })
+  .controller('AuthCtrl', function ($rootScope, $scope, $state, FirebaseService) {
+    if ($rootScope.currentAccount) {
+      $state.transitionTo('dashboard');
+    }
 
   .controller('AuthCtrl', function ($scope, $state) {
     $scope.authForm = {};
+    $scope.isAuthenticating = false;
     $scope.regex = /^[0-9]{5}$/;
 
-    $scope.didInputPin = function () {
-      if ($scope.authForm.pin === 12345) {
-        $state.go('send');
-      }
+    $scope.didInputAccountId = function () {
+      $scope.isAuthenticating = true;
 
-      $scope.authForm.pin = undefined;
+      FirebaseService.authenticate($scope.authForm.accountId)
+        .then(function () {
+          $state.transitionTo('dashboard');
+        })
+        .finally(function () {
+          $scope.authForm.accountId = undefined;
+          $scope.isAuthenticating = false;
+        });
     };
   })
 

@@ -3,9 +3,11 @@
     <form name="authForm" ng-controller="AuthCtrl" novalidate>
       <label class="item item-input">
         <input type="number"
-               ng-model="authForm.pin"
+               placeholder="5-digit ID"
+               ng-model="authForm.accountId"
                ng-pattern="regex"
-               ng-change="didInputPin()">
+               ng-change="didInputAccountId()"
+               ng-disabled="isAuthenticating">
       </label>
     </form>
   </ion-content>
