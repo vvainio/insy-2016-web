@@ -22,8 +22,6 @@
       $rootScope.currentAccount = null;
       $state.transitionTo('auth');
     };
-
-    $rootScope.keys = Object.keys;
   })
 
   .config(function ($stateProvider, $urlRouterProvider) {

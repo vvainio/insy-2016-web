@@ -31,16 +31,8 @@
       $state.transitionTo('auth');
     }
 
-    DataFactory.account.then(function (result) {
+    DataFactory.account().then(function (result) {
       $scope.account = result;
-    });
-
-    DataFactory.pendingDeliveries().then(function (results) {
-      $scope.pendingDeliveries = results;
-    });
-
-    DataFactory.pendingPickups().then(function (results) {
-      $scope.pendingPickups = results;
     });
 
     $scope.getAccountDetails = function (pckg, type) {
@@ -50,6 +42,28 @@
     $scope.deletePackage = function (pckg) {
       FirebaseService.deletePackage(pckg.$id);
     };
+
+    function loadPackages() {
+      function fetchPendingDeliveries() {
+        DataFactory.pendingDeliveries().then(function (results) {
+          $scope.pendingDeliveries = results;
+        });
+      }
+
+      function fetchPendingPickups() {
+        DataFactory.pendingPickups().then(function (results) {
+          $scope.pendingPickups = results;
+        });
+      }
+
+      return (function () {
+        fetchPendingDeliveries();
+        fetchPendingPickups();
+      })();
+    }
+
+    loadPackages();
+    DataFactory.packages.$watch(loadPackages);
   })
 
   .controller('SendRecipientCtrl', function ($scope, $rootScope, $state, DataFactory) {
@@ -57,7 +71,7 @@
       $state.transitionTo('auth');
     }
 
-    DataFactory.recipients.then(function (results) {
+    DataFactory.recipients().then(function (results) {
       $scope.recipients = results;
     });
 
@@ -89,6 +103,15 @@
 
     $scope.isCollecting = false;
 
+    $scope.getAccountDetails = function (pckg, type) {
+      return DataFactory.getAccountDetails(pckg, type);
+    };
+
+    $scope.collect = function (pckg) {
+      var data = { 'is_delivered': true };
+      FirebaseService.updatePackage(pckg.$id, data);
+    };
+
     function fetchPickups() {
       DataFactory.pendingPickups().then(function (results) {
         $scope.pendingPickups = results;
@@ -96,17 +119,6 @@
     }
 
     fetchPickups();
-
-    $scope.getAccountDetails = function (pckg, type) {
-      return DataFactory.getAccountDetails(pckg, type);
-    };
-
-    $scope.collect = function (pckg) {
-      var data = { 'is_delivered': true };
-
-      FirebaseService.updatePackage(pckg.$id, data).then(function () {
-        $scope.pendingPickups = fetchPickups();
-      });
-    };
+    DataFactory.packages.$watch(fetchPickups);
   });
 })();
