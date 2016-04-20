@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.services'])
+  angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.factories', 'app.services'])
 
   .run(function ($ionicPlatform, $ionicConfig, $rootScope, $state, FirebaseService) {
     $ionicPlatform.ready(function () {

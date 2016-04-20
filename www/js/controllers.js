@@ -26,57 +26,43 @@
     };
   })
 
-  .controller('DashboardCtrl', function ($rootScope, $scope, $state, FirebaseService) {
+  .controller('DashboardCtrl', function ($rootScope, $scope, $state, FirebaseService, DataFactory) {
     if (!$rootScope.currentAccount) {
       $state.transitionTo('auth');
     }
 
-    $rootScope.account = {};
-    $rootScope.accounts = {};
-    $rootScope.sentPackages = {};
-    $rootScope.receivedPackages = {};
-
-    FirebaseService.getAccounts().$loaded(function (accounts) {
-      accounts.forEach(function (account) {
-        var accountId = account.$id;
-
-        if (accountId === $rootScope.currentAccount.uid) {
-          $rootScope.account = account;
-        }
-
-        $rootScope.accounts[accountId] = account;
-      });
-
-      FirebaseService.getPackages().$loaded(function (pckgs) {
-        var accountId = $rootScope.currentAccount.uid;
-
-        pckgs.forEach(function (pckg) {
-          if (pckg.sender === accountId) {
-            $rootScope.sentPackages[pckg.$id] = pckg;
-          }
-
-          if (pckg.recipient === accountId) {
-            $rootScope.receivedPackages[pckg.$id] = pckg;
-          }
-        });
-      });
+    DataFactory.account.then(function (result) {
+      $scope.account = result;
     });
 
-    $scope.deletePackage = function (key) {
-      FirebaseService.deletePackage(key);
+    DataFactory.pendingDeliveries().then(function (results) {
+      $scope.pendingDeliveries = results;
+    });
+
+    DataFactory.pendingPickups().then(function (results) {
+      $scope.pendingPickups = results;
+    });
+
+    $scope.getAccountDetails = function (pckg, type) {
+      return DataFactory.getAccountDetails(pckg, type);
+    };
+
+    $scope.deletePackage = function (pckg) {
+      FirebaseService.deletePackage(pckg.$id);
     };
   })
 
-  .controller('SendRecipientCtrl', function ($scope, $rootScope, $state, FirebaseService) {
+  .controller('SendRecipientCtrl', function ($scope, $rootScope, $state, DataFactory) {
     if (!$rootScope.currentAccount) {
       $state.transitionTo('auth');
     }
 
-    $scope.accounts = FirebaseService.getAccounts();
+    DataFactory.recipients.then(function (results) {
+      $scope.recipients = results;
+    });
 
-    $scope.setRecipient = function (key, account) {
+    $scope.setRecipient = function (account) {
       $rootScope.recipient = account;
-      $rootScope.recipient.id = key;
     };
   })
 
@@ -96,17 +82,31 @@
     };
   })
 
-  .controller('ReceiveCtrl', function ($scope, $rootScope, $state, FirebaseService) {
+  .controller('ReceiveCtrl', function ($scope, $rootScope, $state, FirebaseService, DataFactory) {
     if (!$rootScope.currentAccount) {
       $state.transitionTo('auth');
     }
 
-    $scope.packages = $rootScope.receivedPackages;
     $scope.isCollecting = false;
 
-    $scope.collect = function (key) {
+    function fetchPickups() {
+      DataFactory.pendingPickups().then(function (results) {
+        $scope.pendingPickups = results;
+      });
+    }
+
+    fetchPickups();
+
+    $scope.getAccountDetails = function (pckg, type) {
+      return DataFactory.getAccountDetails(pckg, type);
+    };
+
+    $scope.collect = function (pckg) {
       var data = { 'is_delivered': true };
-      FirebaseService.updatePackage(key, data);
+
+      FirebaseService.updatePackage(pckg.$id, data).then(function () {
+        $scope.pendingPickups = fetchPickups();
+      });
     };
   });
 })();

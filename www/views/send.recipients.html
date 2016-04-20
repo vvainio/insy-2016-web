@@ -1,8 +1,8 @@
 <ion-view title="Select recipient">
   <ion-content padding="true">
     <ion-list>
-      <ion-radio ng-repeat="(key, account) in accounts" ng-click="setRecipient(key, account)">
-        #{{account.apartment}} - {{account.name}}
+      <ion-radio ng-repeat="recipient in recipients" ng-click="setRecipient(recipient)">
+        #{{recipient.apartment}} - {{recipient.name}}
       </ion-radio>
     </ion-list>
 

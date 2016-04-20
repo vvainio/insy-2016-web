@@ -6,39 +6,33 @@
       Send a package
     </a>
 
-    <a ui-sref="receive" class="button button-block button-large button-positive">
+    <a ui-sref="receive" ng-disabled="!pendingPickups.length" class="button button-block button-large button-positive">
       Receive a package
     </a>
 
-    <h4>Sent packages</h4>
-    <ul ng-if="keys(sentPackages).length !== 0">
-      <li ng-repeat="(key, package) in sentPackages">
+    <h4>Pending deliveries</h4>
+    <ul ng-if="pendingDeliveries.length">
+      <li ng-repeat="package in pendingDeliveries">
         <dl>
           <dt>Recipient</dt>
-          <dd>{{accounts[package.recipient].name}}</dd>
-          <dt>Is delivered?</dt>
-          <dd>{{package.is_delivered}}</dd>
-          <button href="#" ng-click="deletePackage(key)" class="button button-small button-assertive">Remove</button>
+          <dd>{{getAccountDetails(package, "recipient").name}}</dd>
         </dl>
       </li>
     </ul>
-    <p ng-if="keys(sentPackages).length == 0">
+    <p ng-if="!pendingDeliveries.length">
       You haven't sent any packages yet.
     </p>
 
-    <h4>Received packages</h4>
-    <ul ng-if="keys(receivedPackages).length !== 0">
-      <li ng-repeat="(key, package) in receivedPackages">
+    <h4>Packages ready for pickup</h4>
+    <ul ng-if="pendingPickups.length">
+      <li ng-repeat="package in pendingPickups">
         <dl>
-          <dt>From</dt>
-          <dd>{{accounts[package.sender].name}}</dd>
-          <dt>Is delivered?</dt>
-          <dd>{{package.is_delivered}}</dd>
+          <dt>Sender</dt>
+          <dd>{{getAccountDetails(package, "sender").name}}</dd>
         </dl>
-        <button href="#" ng-click="deletePackage(key)" class="button button-small button-assertive">Remove</button>
       </li>
     </ul>
-    <p ng-if="keys(sentPackages).length == 0">
+    <p ng-if="!pendingPickups.length">
       You haven't received any packages yet.
     </p>
   </ion-content>

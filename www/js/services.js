@@ -33,6 +33,7 @@
     // packages endpoint
     this.createPackage = function (recipient) {
       return rootRef.child('packages').push({
+        'created_at': Firebase.ServerValue.TIMESTAMP,
         'is_delivered': false,
         'sender': $rootScope.currentAccount.uid,
         'recipient': recipient.$id
@@ -44,6 +45,7 @@
     };
 
     this.updatePackage = function (id, data) {
+      data.modified_at =Firebase.ServerValue.TIMESTAMP;
       return rootRef.child('packages').child(id).update(data);
     };
 
