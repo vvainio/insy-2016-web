@@ -22,6 +22,8 @@
       $rootScope.currentAccount = null;
       $state.transitionTo('auth');
     };
+
+    $rootScope.keys = Object.keys;
   })
 
   .config(function ($stateProvider, $urlRouterProvider) {
@@ -45,6 +47,7 @@
         controller: 'DashboardCtrl',
         resolve: resolveCurrentAccount
       })
+      // Send packages
       .state('send', {
         url: '/recipient',
         templateUrl: 'views/send.recipients.html',
@@ -60,6 +63,13 @@
       .state('confirmation', {
         url: '/confirmation',
         templateUrl: 'views/send.confirmation.html',
+        resolve: resolveCurrentAccount
+      })
+      // Receive packages
+      .state('receive', {
+        url: '/receive',
+        templateUrl: 'views/receive.packages.html',
+        controller: 'ReceiveCtrl',
         resolve: resolveCurrentAccount
       });
 

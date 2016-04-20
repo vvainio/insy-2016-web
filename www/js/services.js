@@ -43,6 +43,10 @@
       return $firebaseArray(rootRef.child('packages'));
     };
 
+    this.updatePackage = function (id, data) {
+      return rootRef.child('packages').child(id).update(data);
+    };
+
     this.deletePackage = function (id) {
       return rootRef.child('packages').child(id).remove();
     };

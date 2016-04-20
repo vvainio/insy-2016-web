@@ -1,0 +1,25 @@
+<ion-view title="Receive packages">
+  <ion-content padding="true">
+    <div ng-if="packages">
+      <p>You have {{keys(packages).length}} packages waiting to be picked up.</p>
+
+      <div class="list">
+        <div ng-repeat="(key, package) in packages" class="item item-button-right">
+          From: {{accounts[package.sender].name}}
+
+          <button ng-click="collect(key)" class="button button-positive">
+            Collect
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="!packages">
+      <p>You have collected all your packages!</p>
+
+      <a ui-sref="dashboard" class="button button-positive">
+        Back to Dashboard
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

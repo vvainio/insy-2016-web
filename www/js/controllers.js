@@ -31,20 +31,20 @@
       $state.transitionTo('auth');
     }
 
-    $scope.account = {};
-    $scope.accounts = {};
-    $scope.sentPackages = {};
-    $scope.receivedPackages = {};
+    $rootScope.account = {};
+    $rootScope.accounts = {};
+    $rootScope.sentPackages = {};
+    $rootScope.receivedPackages = {};
 
     FirebaseService.getAccounts().$loaded(function (accounts) {
       accounts.forEach(function (account) {
         var accountId = account.$id;
 
         if (accountId === $rootScope.currentAccount.uid) {
-          $scope.account = account;
-        } else {
-          $scope.accounts[accountId] = account;
+          $rootScope.account = account;
         }
+
+        $rootScope.accounts[accountId] = account;
       });
 
       FirebaseService.getPackages().$loaded(function (pckgs) {
@@ -52,11 +52,11 @@
 
         pckgs.forEach(function (pckg) {
           if (pckg.sender === accountId) {
-            $scope.sentPackages[pckg.$id] = pckg;
+            $rootScope.sentPackages[pckg.$id] = pckg;
           }
 
           if (pckg.recipient === accountId) {
-            $scope.receivedPackages[pckg.$id] = pckg;
+            $rootScope.receivedPackages[pckg.$id] = pckg;
           }
         });
       });
@@ -93,6 +93,20 @@
       FirebaseService.createPackage($rootScope.recipient).then(function () {
         $state.transitionTo('confirmation');
       });
+    };
+  })
+
+  .controller('ReceiveCtrl', function ($scope, $rootScope, $state, FirebaseService) {
+    if (!$rootScope.currentAccount) {
+      $state.transitionTo('auth');
+    }
+
+    $scope.packages = $rootScope.receivedPackages;
+    $scope.isCollecting = false;
+
+    $scope.collect = function (key) {
+      var data = { 'is_delivered': true };
+      FirebaseService.updatePackage(key, data);
     };
   });
 })();
