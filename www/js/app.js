@@ -61,6 +61,7 @@
       .state('confirmation', {
         url: '/confirmation',
         templateUrl: 'views/send.confirmation.html',
+        controller: 'SendConfirmationCtrl',
         resolve: resolveCurrentAccount
       })
       // Receive packages

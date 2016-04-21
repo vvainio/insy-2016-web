@@ -31,6 +31,8 @@
       $state.transitionTo('auth');
     }
 
+    $rootScope.package = null;
+
     DataFactory.account().then(function (result) {
       $scope.account = result;
     });
@@ -90,10 +92,21 @@
     }
 
     $scope.createPackage = function () {
-      FirebaseService.createPackage($rootScope.recipient).then(function () {
+      FirebaseService.createPackage($rootScope.recipient).then(function (pckg) {
+        $rootScope.package = FirebaseService.getPackage(pckg.key());
         $state.transitionTo('confirmation');
       });
     };
+  })
+
+  .controller('SendConfirmationCtrl', function ($rootScope, $state) {
+    if (!$rootScope.currentAccount) {
+      $state.transitionTo('auth');
+    }
+
+    if (!$rootScope.package) {
+      $state.transitionTo('dashboard');
+    }
   })
 
   .controller('ReceiveCtrl', function ($scope, $rootScope, $state, FirebaseService, DataFactory) {

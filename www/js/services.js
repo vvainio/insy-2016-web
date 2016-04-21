@@ -3,7 +3,7 @@
 
   angular.module('app.services', [])
 
-  .service('FirebaseService', function ($rootScope, $firebaseAuth, $firebaseArray) {
+  .service('FirebaseService', function ($rootScope, $firebaseAuth, $firebaseObject, $firebaseArray) {
     var rootRef = new Firebase('https://insy-2016-web.firebaseio.com/');
     var firebaseAuth = $firebaseAuth(rootRef);
 
@@ -35,9 +35,14 @@
       return rootRef.child('packages').push({
         'created_at': Firebase.ServerValue.TIMESTAMP,
         'is_delivered': false,
+        'is_sending': true,
         'sender': $rootScope.currentAccount.uid,
         'recipient': recipient.$id
       });
+    };
+
+    this.getPackage = function (id) {
+      return $firebaseObject(rootRef.child('packages').child(id));
     };
 
     this.getPackages = function () {
@@ -45,7 +50,7 @@
     };
 
     this.updatePackage = function (id, data) {
-      data.modified_at =Firebase.ServerValue.TIMESTAMP;
+      data.modified_at = Firebase.ServerValue.TIMESTAMP;
       return rootRef.child('packages').child(id).update(data);
     };
 
