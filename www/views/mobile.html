@@ -1,0 +1,39 @@
+<ion-view hide-back-button="true" title="Dashboard"  class="dashboard">
+  <ion-content padding="true">
+    <h3 ng-if="account.name">Welcome, {{account.name}}!</h3>
+
+    <h4>Pending pick-ups</h4>
+    <p>
+      {{pendingPickups.length}} packages ready to be picked up.
+    </p>
+
+    <ul ng-if="pendingPickups.length">
+      <li ng-repeat="package in pendingPickups">
+        <dl>
+          <dt>From</dt>
+          <dd>{{getAccountDetails(package, "sender").name}}</dd>
+        </dl>
+      </li>
+    </ul>
+
+    <h4>Pending deliveries</h4>
+    <p>
+        {{pendingDeliveries.length}}
+        <span ng-pluralize count="pendingDeliveries.length"
+              when="{'one': 'delivery pending',
+                   'other': 'deliveries pending'}">
+        </span>
+    </p>
+
+    <hr>
+
+    <ul ng-if="pendingDeliveries.length">
+      <li ng-repeat="package in pendingDeliveries">
+        <dl>
+          <dt>To</dt>
+          <dd>{{getAccountDetails(package, "recipient").name}}</dd>
+        </dl>
+      </li>
+    </ul>
+  </ion-content>
+</ion-view>

@@ -70,6 +70,13 @@
         templateUrl: 'views/receive.packages.html',
         controller: 'ReceiveCtrl',
         resolve: resolveCurrentAccount
+      })
+      // Sample mobile dashboard
+      .state('mobile', {
+        url: '/mobile',
+        templateUrl: 'views/mobile.html',
+        controller: 'DashboardCtrl',
+        resolve: resolveCurrentAccount
       });
 
     $urlRouterProvider.otherwise('/auth');

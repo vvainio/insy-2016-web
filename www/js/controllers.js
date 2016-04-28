@@ -51,8 +51,9 @@
       $scope.account = result;
     });
 
+    $scope.accounts = DataFactory.accounts();
     $scope.getAccountDetails = function (pckg, type) {
-      return DataFactory.getAccountDetails(pckg, type);
+      return DataFactory.getAccountDetails($scope.accounts, pckg, type);
     };
 
     $scope.deletePackage = function (pckg) {
