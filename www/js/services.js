@@ -53,6 +53,10 @@
       return $firebaseArray(rootRef.child('packages'));
     };
 
+    this.getPackagesRef = function () {
+      return rootRef.child('packages');
+    };
+
     this.updatePackage = function (id, data) {
       data.modified_at = Firebase.ServerValue.TIMESTAMP;
       return rootRef.child('packages').child(id).update(data);

@@ -31,6 +31,20 @@
       $state.transitionTo('auth');
     }
 
+    $scope.packagesRef = FirebaseService.getPackagesRef();
+    $scope.packagesRef.on('value', function () {
+      DataFactory.packages().$loaded(function (pckgs) {
+        refreshPackages(pckgs);
+      });
+    });
+
+    function refreshPackages(pckgs) {
+      $scope.pendingDeliveries = DataFactory.pendingDeliveries(pckgs);
+      $scope.pendingPickups = DataFactory.pendingPickups(pckgs);
+    }
+
+    $scope.pendingDeliveries = null;
+    $scope.pendingPickups = null;
     $rootScope.package = null;
 
     DataFactory.account().then(function (result) {
@@ -44,28 +58,6 @@
     $scope.deletePackage = function (pckg) {
       FirebaseService.deletePackage(pckg.$id);
     };
-
-    function loadPackages() {
-      function fetchPendingDeliveries() {
-        DataFactory.pendingDeliveries().then(function (results) {
-          $scope.pendingDeliveries = results;
-        });
-      }
-
-      function fetchPendingPickups() {
-        DataFactory.pendingPickups().then(function (results) {
-          $scope.pendingPickups = results;
-        });
-      }
-
-      return (function () {
-        fetchPendingDeliveries();
-        fetchPendingPickups();
-      })();
-    }
-
-    loadPackages();
-    DataFactory.packages.$watch(loadPackages);
   })
 
   .controller('SendRecipientCtrl', function ($scope, $rootScope, $state, DataFactory) {
@@ -114,10 +106,11 @@
       $state.transitionTo('auth');
     }
 
+    $scope.accounts = DataFactory.accounts();
     $scope.activePackageRef = null;
 
     $scope.getAccountDetails = function (pckg, type) {
-      return DataFactory.getAccountDetails(pckg, type);
+      return DataFactory.getAccountDetails($scope.accounts, pckg, type);
     };
 
     $scope.setActivePackageRef = function (pckg) {
@@ -127,12 +120,6 @@
         $scope.activePackageRef = FirebaseService.getPackageRef(pckg.$id);
       });
     };
-
-    function fetchPickups() {
-      DataFactory.pendingPickups().then(function (results) {
-        $scope.pendingPickups = results;
-      });
-    }
 
     $scope.$watch('activePackageRef', function (ref) {
       if (ref) {
@@ -146,7 +133,15 @@
       }
     });
 
-    fetchPickups();
-    DataFactory.packages.$watch(fetchPickups);
+    $scope.packagesRef = FirebaseService.getPackagesRef();
+    $scope.packagesRef.on('value', function () {
+      DataFactory.packages().$loaded(function (pckgs) {
+        refreshPackages(pckgs);
+      });
+    });
+
+    function refreshPackages(pckgs) {
+      $scope.pendingPickups = DataFactory.pendingPickups(pckgs);
+    }
   });
 })();

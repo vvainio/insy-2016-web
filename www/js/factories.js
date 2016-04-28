@@ -4,8 +4,13 @@
   angular.module('app.factories', [])
 
   .factory('DataFactory', function ($q, $rootScope, FirebaseService) {
-    this.accounts = FirebaseService.getAccounts();
-    this.packages = FirebaseService.getPackages();
+    this.accounts = function () {
+      return FirebaseService.getAccounts();
+    };
+
+    this.packages = function () {
+      return FirebaseService.getPackages();
+    };
 
     function accountsForLogin() {
       return FirebaseService.getAccounts();
@@ -23,32 +28,30 @@
       });
     };
 
-    this.pendingDeliveries = function () {
-      return this.packages.$loaded(function(packages) {
-        return packages.filter(function (pckg) {
-          return !pckg.is_delivered && pckg.sender === currentAccountId();
-        });
+    this.pendingDeliveries = function (packages) {
+      return packages.filter(function (pckg) {
+        var isCorrectSender = pckg.sender === currentAccountId();
+        return isCorrectSender && !pckg.is_delivered && !pckg.is_sending;
       });
     };
 
-    this.pendingPickups = function () {
-      return this.packages.$loaded(function(packages) {
-        return packages.filter(function (pckg) {
-          return !pckg.is_delivered && pckg.recipient === currentAccountId();
-        });
+    this.pendingPickups = function (packages) {
+      return packages.filter(function (pckg) {
+        var isCorrectRecipient = pckg.recipient === currentAccountId();
+        return isCorrectRecipient && !pckg.is_sending && !pckg.is_delivered;
       });
     };
 
     this.recipients = function () {
-      return this.accounts.$loaded(function (accounts) {
+      return this.accounts().$loaded(function (accounts) {
         return accounts.filter(function (account) {
           return account.$id !== currentAccountId();
         });
       });
     };
 
-    this.getAccountDetails = function (pckg, type) {
-      return this.accounts.find(function (account) {
+    this.getAccountDetails = function (accounts, pckg, type) {
+      return accounts.find(function (account) {
         return account.$id === pckg[type];
       });
     };
