@@ -20,3 +20,21 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
+$primary-color: rgb(74,144,225);
+
+
+.nav-bar {
+    background-color: $primary-color;
+}
+
+
+.title {
+    text-transform: uppercase;
+    font-weight: 100;
+    color: #fff;
+}
+
+.secondary-text {
+    color: #999;
+}

@@ -5,7 +5,7 @@
 
       <div class="list">
         <div ng-repeat="package in pendingPickups" class="item item-button-right">
-          From: {{getAccountDetails(package, "sender").name}}
+          <span class="secondary-text">{{package.created_at | date:'dd.MM.yyyy HH:mm'}}</span> From: {{getAccountDetails(package, "sender").name}}
 
           <button ng-click="collect(package)" class="button button-positive">
             Collect
@@ -18,7 +18,7 @@
       <p>You have collected all your packages!</p>
 
       <a ui-sref="dashboard" class="button button-positive">
-        Back to Dashboard
+        Back to Start
       </a>
     </div>
   </ion-content>

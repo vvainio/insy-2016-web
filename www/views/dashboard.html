@@ -1,16 +1,37 @@
-<ion-view title="Dashboard" class="dashboard">
+<ion-view hide-back-button="true" title="Select Action"  class="dashboard">
   <ion-content padding="true">
     <h3 ng-if="account.name">Welcome, {{account.name}}!</h3>
 
-    <a ui-sref="send" class="button button-block button-large button-positive">
-      Send a package
-    </a>
 
-    <a ui-sref="receive" ng-disabled="!pendingPickups.length" class="button button-block button-large button-positive">
+
+    <a ui-sref="receive" ng-disabled="!pendingPickups.length" class="button button-block button-outline button-large button-positive">
       Receive a package
+        <p class="button_info_text" ng-if="!pendingPickups.length">
+            You haven't received any packages yet.
+        </p> 
+        <p class="button_info_text" ng-if="pendingPickups.length">
+            You have received {{pendingPickups.length}} packages.
+        </p> 
     </a>
 
-    <h4>Pending deliveries</h4>
+      
+
+      <a ui-sref="send" class="button button-block button-large button-outline button-positive">
+          Send a package
+      </a>
+      
+      <h4>Pending deliveries</h4>
+      <p>
+          {{pendingDeliveries.length}}
+          <span ng-pluralize count="pendingDeliveries.length"
+                 when="{'one': 'delivery pending',
+                     'other': 'deliveries pending'}">
+          </span>
+      </p>
+      
+      
+     
+<!--
     <ul ng-if="pendingDeliveries.length">
       <li ng-repeat="package in pendingDeliveries">
         <dl>
@@ -19,10 +40,9 @@
         </dl>
       </li>
     </ul>
-    <p ng-if="!pendingDeliveries.length">
-      You haven't sent any packages yet.
-    </p>
-
+-->
+              
+<!--
     <h4>Packages ready for pickup</h4>
     <ul ng-if="pendingPickups.length">
       <li ng-repeat="package in pendingPickups">
@@ -32,8 +52,11 @@
         </dl>
       </li>
     </ul>
+      
+      
     <p ng-if="!pendingPickups.length">
       You haven't received any packages yet.
     </p>
+-->
   </ion-content>
 </ion-view>

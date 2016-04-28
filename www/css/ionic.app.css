@@ -9730,3 +9730,14 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+.nav-bar {
+  background-color: #4a90e1; }
+
+.title {
+  text-transform: uppercase;
+  font-weight: 100;
+  color: #fff; }
+
+.secondary-text {
+  color: #999; }
