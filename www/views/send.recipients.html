@@ -1,7 +1,7 @@
 <ion-view title="Select recipient">
   <ion-content padding="true">
     <ion-list>
-      <ion-radio ng-repeat="recipient in recipients" ng-click="setRecipient(recipient)">
+      <ion-radio ng-repeat="recipient in recipients | orderBy:orderByApartment" ng-click="setRecipient(recipient)">
         #{{recipient.apartment}} - {{recipient.name}}
       </ion-radio>
     </ion-list>

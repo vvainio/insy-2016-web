@@ -72,6 +72,10 @@
     $scope.setRecipient = function (account) {
       $rootScope.recipient = account;
     };
+
+    $scope.orderByApartment = function (recipient) {
+      return parseInt(recipient.apartment);
+    };
   })
 
   .controller('SendVerifyCtrl', function ($scope, $rootScope, $state, FirebaseService) {
