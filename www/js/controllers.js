@@ -114,15 +114,18 @@
       $state.transitionTo('auth');
     }
 
-    $scope.isCollecting = false;
+    $scope.activePackageRef = null;
 
     $scope.getAccountDetails = function (pckg, type) {
       return DataFactory.getAccountDetails(pckg, type);
     };
 
-    $scope.collect = function (pckg) {
-      var data = { 'is_delivered': true };
-      FirebaseService.updatePackage(pckg.$id, data);
+    $scope.setActivePackageRef = function (pckg) {
+      var data = { 'is_receiving': true };
+
+      FirebaseService.updatePackage(pckg.$id, data).then(function () {
+        $scope.activePackageRef = FirebaseService.getPackageRef(pckg.$id);
+      });
     };
 
     function fetchPickups() {
@@ -130,6 +133,18 @@
         $scope.pendingPickups = results;
       });
     }
+
+    $scope.$watch('activePackageRef', function (ref) {
+      if (ref) {
+        ref.on('value', function (snapshot) {
+          var data = snapshot.val();
+
+          if (data.is_delivered) {
+            $scope.activePackageRef = null;
+          }
+        });
+      }
+    });
 
     fetchPickups();
     DataFactory.packages.$watch(fetchPickups);

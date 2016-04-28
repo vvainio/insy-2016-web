@@ -45,6 +45,10 @@
       return $firebaseObject(rootRef.child('packages').child(id));
     };
 
+    this.getPackageRef = function (id) {
+      return rootRef.child('packages').child(id);
+    };
+
     this.getPackages = function () {
       return $firebaseArray(rootRef.child('packages'));
     };

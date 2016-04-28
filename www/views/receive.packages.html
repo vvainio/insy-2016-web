@@ -1,17 +1,21 @@
 <ion-view title="Receive packages">
   <ion-content padding="true">
-    <div ng-if="pendingPickups.length">
+    <div ng-if="pendingPickups.length && !activePackageRef">
       <p>You have {{pendingPickups.length}} packages waiting to be picked up.</p>
 
       <div class="list">
         <div ng-repeat="package in pendingPickups" class="item item-button-right">
           <span class="secondary-text">{{package.created_at | date:'dd.MM.yyyy HH:mm'}}</span> From: {{getAccountDetails(package, "sender").name}}
 
-          <button ng-click="collect(package)" class="button button-positive">
+          <button ng-click="setActivePackageRef(package)" class="button button-positive">
             Collect
           </button>
         </div>
       </div>
+    </div>
+
+    <div ng-if="activePackageRef">
+      Remove the package from the open locker and close the door.
     </div>
 
     <div ng-if="!pendingPickups.length">
