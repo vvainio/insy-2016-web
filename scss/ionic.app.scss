@@ -22,12 +22,60 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "www/lib/ionic/scss/ionic";
 
 $primary-color: rgb(74,144,225);
+$vh-footer: calc(100vh - 150px);
 
 
 .nav-bar {
     background-color: $primary-color;
 }
 
+div.scroll.padding {
+    height: $vh-footer;
+
+}
+
+.button.button-positive.button-outline{
+         padding-top: calc(100vh / 13);
+//    margin-bottom: 70px;
+        height: 35%;
+    margin-left: 50px;
+    margin-right: 50px;
+    border-radius: calc(100vh / 70);
+    border-bottom-color: rgb(70, 137, 217);
+    font-size: calc(100vw / 10);
+}
+
+.button-main {
+//    padding-top: 70px;
+//    margin-top: 70px;
+//    margin-bottom: 70px;
+    vertical-align: middle;
+//    font-size: 4em;
+    font-weight: 100;
+    border-width: 2px;
+}
+
+.button-main.button-up{
+    margin-top: calc(100vh /15);
+    margin-bottom: calc(100vh / 15);
+}
+
+.button-secondary-text {
+    padding-top: 30px;
+    line-height: normal;
+        font-size: 0.4em;
+    font-weight: 100;
+    color: #777;
+}
+
+.info-text {
+    text-align: center;
+    font-size: 2em;
+    color: #666;
+    line-height: normal;
+    margin:50px;
+    margin-top: 100px;  
+}
 
 .title {
     text-transform: uppercase;
@@ -37,4 +85,29 @@ $primary-color: rgb(74,144,225);
 
 .secondary-text {
     color: #999;
+    text-align: center;
+
+}
+
+
+.logo-login {
+    display: block;
+    margin-top: 10vh;
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+    width: auto;
+    max-height: 80%;
+    text-align: center;
+}
+
+.bottom-block {
+    text-align: center;
+    background-color: #f4f4f4;
+    height: 100px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }

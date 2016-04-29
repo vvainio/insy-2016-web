@@ -1,10 +1,10 @@
 <ion-view title="Confirmation">
   <ion-content padding="true">
-    <div ng-if="package.is_sending">
+    <div class="info-text" ng-if="package.is_sending">
       Place the package into the open locker and close the door to send it.
     </div>
 
-    <div ng-if="!package.is_sending">
+    <div class="info-text" ng-if="!package.is_sending">
       <p>Package details have been sent to the recipient.</p>
       <p>You will receive a notification when the package has been picked up.</p>
 

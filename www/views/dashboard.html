@@ -1,34 +1,27 @@
 <ion-view hide-back-button="true" title="Select Action"  class="dashboard">
   <ion-content padding="true">
-    <h3 ng-if="account.name">Welcome, {{account.name}}!</h3>
+  
+        <h4 class="secondary-text" ng-if="account.name">Welcome, {{account.name}}!</h4>
 
 
+        <a ui-sref="receive" ng-disabled="!pendingPickups.length"
+           class="button button-block button-outline button-large button-main button-up button-positive">
+          Collect
+            <p class="button-secondary-text secondary-text" ng-if="!pendingPickups.length">
+                There's no packages for you at the moment.
+            </p> 
+            <p class="button-secondary-text secondary-text" ng-if="pendingPickups.length">
+                You have received {{pendingPickups.length}} 
+                <span ng-pluralize
+                      count="pendingPickups.length"
+                      when="{'one': 'package',
+                            'other': 'packages'}"></span>
+            </p> 
+        </a>
 
-    <a ui-sref="receive" ng-disabled="!pendingPickups.length" class="button button-block button-outline button-large button-positive">
-      Receive a package
-        <p class="button_info_text" ng-if="!pendingPickups.length">
-            You haven't received any packages yet.
-        </p> 
-        <p class="button_info_text" ng-if="pendingPickups.length">
-            You have received {{pendingPickups.length}} packages.
-        </p> 
-    </a>
-
-      
-
-      <a ui-sref="send" class="button button-block button-large button-outline button-positive">
-          Send a package
-      </a>
-      
-      <h4>Pending deliveries</h4>
-      <p>
-          {{pendingDeliveries.length}}
-          <span ng-pluralize count="pendingDeliveries.length"
-                 when="{'one': 'delivery pending',
-                     'other': 'deliveries pending'}">
-          </span>
-      </p>
-      
+        <a ui-sref="send" class="button button-main button-block button-large button-outline button-positive">
+            Send
+        </a>    
       
      
 <!--
@@ -59,4 +52,15 @@
     </p>
 -->
   </ion-content>
+          <div class="bottom-block secondary-text">
+          <h4 class="secondary-text">Pending deliveries</h4>
+          <p>
+              {{pendingDeliveries.length}}
+              <span ng-pluralize count="pendingDeliveries.length"
+                     when="{'one': 'delivery pending',
+                         'other': 'deliveries pending'}">
+              </span>
+          </p>
+     </div>
 </ion-view>
+
