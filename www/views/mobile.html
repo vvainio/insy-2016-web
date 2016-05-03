@@ -16,7 +16,7 @@
     <div ng-if="pendingPickups.length" class="list">
       <div ng-repeat="package in pendingPickups" class="item item-icon-left">
         <i class="icon ion-cube"></i>
-        From: {{getAccountDetails(package, "sender").name}}
+        Sender: {{getAccountDetails(package, "sender").name}}
         <span class="item-note">
           {{package.created_at | date:'dd.MM.yyyy HH:mm'}}
         </span>
@@ -35,7 +35,7 @@
     <div ng-if="pendingDeliveries.length" class="list">
       <div ng-repeat="package in pendingDeliveries" class="item item-icon-left">
         <i class="icon ion-cube"></i>
-        From: {{getAccountDetails(package, "recipient").name}}
+        Recipient: {{getAccountDetails(package, "recipient").name}}
         <span class="item-note">
           {{package.created_at | date:'dd.MM.yyyy HH:mm'}}
         </span>
