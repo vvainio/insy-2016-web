@@ -1,7 +1,7 @@
 <ion-view title="Confirmation">
   <ion-content padding="true">
     <div class="info-text" ng-if="package.is_sending">
-      Place the package into the open locker and close the door to send it.
+      Place the package into the locker number 1 and close the door to send it.
     </div>
 
     <div class="info-text" ng-if="!package.is_sending">
@@ -9,7 +9,7 @@
       <p>You will receive a notification when the package has been picked up.</p>
 
       <a ui-sref="dashboard" class="button button-positive">
-        Close
+        Back to start
       </a>
     </div>
   </ion-content>

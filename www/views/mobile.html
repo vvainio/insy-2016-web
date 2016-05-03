@@ -1,20 +1,30 @@
 <ion-view hide-back-button="true" title="Dashboard"  class="dashboard">
   <ion-content padding="true">
-    <h3 ng-if="account.name">Welcome, {{account.name}}!</h3>
-
+      <h4 class="secondary-text" ng-if="account.name">
+          Welcome, {{account.name}}!
+      </h4>
     <h4>Pending pick-ups</h4>
     <p>
-      {{pendingPickups.length}} packages ready to be picked up.
+      {{pendingPickups.length}} 
+                <span ng-pluralize count="pendingPickups.length"
+              when="{'one': 'package',
+                   'other': 'packages'}">
+        </span> ready to be picked up.
     </p>
 
     <ul ng-if="pendingPickups.length">
       <li ng-repeat="package in pendingPickups">
-        <dl>
+                    <span class="secondary-text">{{package.created_at | date:'dd.MM.yyyy HH:mm'}}</span> From: {{getAccountDetails(package, "sender").name}}
+<!--
+          <dl>
           <dt>From</dt>
           <dd>{{getAccountDetails(package, "sender").name}}</dd>
         </dl>
+-->
       </li>
     </ul>
+
+          <hr>
 
     <h4>Pending deliveries</h4>
     <p>
@@ -25,14 +35,16 @@
         </span>
     </p>
 
-    <hr>
 
     <ul ng-if="pendingDeliveries.length">
       <li ng-repeat="package in pendingDeliveries">
+                              <span class="secondary-text">{{package.created_at | date:'dd.MM.yyyy HH:mm'}}</span> To: {{getAccountDetails(package, "recipient").name}}
+<!--
         <dl>
           <dt>To</dt>
           <dd>{{getAccountDetails(package, "recipient").name}}</dd>
         </dl>
+-->
       </li>
     </ul>
   </ion-content>

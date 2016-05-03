@@ -14,11 +14,11 @@
       </div>
     </div>
 
-    <div ng-if="activePackageRef">
-      Remove the package from the open locker and close the door.
+    <div class="info-text" ng-if="activePackageRef">
+      Remove the package from the locker number 1 and close the door.
     </div>
 
-    <div ng-if="!pendingPickups.length">
+    <div class="info-text" ng-if="!pendingPickups.length">
       <p>You have collected all your packages!</p>
 
       <a ui-sref="dashboard" class="button button-positive">
